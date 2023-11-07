@@ -1,2 +1,6 @@
 all:
-	nasm -f bin boot_sect_simple.asm -o boot.bin && qemu-system-i386 boot_sect_simple.bin
+	nasm -f bin boot_sect.asm -o boot_sect.bin && qemu-system-i386 boot_sect.bin
+
+
+
+
