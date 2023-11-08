@@ -1,11 +1,17 @@
-[org 0x7c00] ; tell the assembler that our offset is bootsector code
+;
+; A boot sector that prints a string using our function.
+;
+[org 0x7c00]                ; Tell the assembler where this code will be loaded
 
+mov si, HELLO_MSG           ; Use BX as a parameter to our function, so
+call print_string           ; We can specify the address of a string.
 
-mov ah, 0x0E		; Set up 4K stack space after this bootloader
-add al, "H"		; (4096 + 512) / 16 bytes per paragraph
+jmp $
 
-jmp $			; Jump here - infinite loop!
+%include "print_string.asm"
 
-; padding and magic number
-times 510-($-$$) db 0
-dw 0xAA55
+HELLO_MSG db "Welcome to the PutrefatOS!", 0
+
+; Padding and magic number.
+times 510 - ( $ - $$ ) db 0
+dw 0xaa55
