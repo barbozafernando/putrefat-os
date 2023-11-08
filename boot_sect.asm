@@ -3,6 +3,9 @@
 ;
 [org 0x7c00]                ; Tell the assembler where this code will be loaded
 
+
+[bits 16]
+
 mov si, GREETINGS_MSG       ; Use BX as a parameter to our function, so
 call print_string           ; We can specify the address of a string.
 
