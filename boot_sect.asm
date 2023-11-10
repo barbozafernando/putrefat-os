@@ -1,23 +1,26 @@
-;
-; A boot sector that prints a string using our function.
-;
-[org 0x7c00]                ; Tell the assembler where this code will be loaded
-
+[org 0x7C00]                ; Tell the assembler where this code will be loaded
 
 [bits 16]
 
-mov si, GREETINGS_MSG       ; Use BX as a parameter to our function, so
-call print_string           ; We can specify the address of a string.
+; Adjust segment registers
+mov ax, 0
+mov ds, ax
+mov es, ax
+mov ax, 0x0000
+mov ss, ax
 
-mov dx, 0x1fb6
-call print_hex
+; Set the base of the stack a little above where BIOS
+; loads our boot sector.
+mov bp, 0x8000
+mov sp, bp                  
+
+mov si, GREETINGS_MSG
+call print_string
 
 %include "print_string.asm"
-%include "print_hex.asm"
 
 GREETINGS_MSG db "*** Welcome to the PutrefatOS! ***", 0
-HEX_OUT db "0x0000", 0
 
 ; Padding and magic number.
 times 510 - ( $ - $$ ) db 0
-dw 0xaa55
+dw 0xAA55
